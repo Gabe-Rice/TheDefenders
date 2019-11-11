@@ -114,8 +114,8 @@ class HomingLaser extends Entity {
 
            
 
-        if (this.scene.enemies.getChildren()[1]){
-            var enemy = this.scene.enemies.getChildren()[1];
+        if (this.scene.enemies.getChildren()[0]){
+            var enemy = this.scene.enemies.getChildren()[0];
 
             if (Phaser.Math.Distance.Between(
                 this.x,
