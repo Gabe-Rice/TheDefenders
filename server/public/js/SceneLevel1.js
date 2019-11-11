@@ -210,11 +210,25 @@ class SceneLevel1 extends Phaser.Scene {
                 var enemy = null;
 
                 if (Phaser.Math.Between(0, 10) >= 3) {
+                    var randomSize = Phaser.Math.Between(10, 20) * 0.1;
+                    var xLocation = Phaser.Math.Between(0, 15 * 64);
+                    var xIncrease = 32;
+                    
+                for (var i = 0; i < 3; i++) {
+                    
+                    
                     enemy = new GunShip(
                         this,
-                        (Phaser.Math.Between(0, 13) * 64) + 32,
+                        xLocation + xIncrease,
                         0   
                     );
+                    
+                    xIncrease += 15;
+                    
+                    enemy.setScale(randomSize);
+                    this.enemies.add(enemy);   
+                    
+                    }
                 }
                 else if (Phaser.Math.Between(0, 10) >= 5) {
                     if (this.getEnemiesByType('ChaserShip').length < 5) {
@@ -325,6 +339,7 @@ class SceneLevel1 extends Phaser.Scene {
 
         this.axis = 0;
         this.axisIncrease = 0;
+        this.level = 1;
     }
 
     getEnemiesByType(type) {
