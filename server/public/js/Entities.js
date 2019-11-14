@@ -112,19 +112,15 @@ class HomingLaser extends Entity {
             
 
 
-           
 
         if (this.scene.enemies.getChildren()[0]){
+            var randomNum = Phaser.Math.Between(0, (this.scene.enemies.getChildren().length)-1);
+            
             var enemy = this.scene.enemies.getChildren()[0];
+            
 
-            if (Phaser.Math.Distance.Between(
-                this.x,
-                this.y,
-                enemy.x,
-                enemy.y
-            ) < 320) {
                 this.state = this.states.CHASE;
-            }
+            
 
             if (this.state == this.states.CHASE) {
                 var dx = enemy.x - this.x;
@@ -132,7 +128,7 @@ class HomingLaser extends Entity {
 
                 var angle = Math.atan2(dy, dx);
 
-                var speed = 100;
+                var speed = 200;
                 this.body.setVelocity(
                     Math.cos(angle) * speed,
                     Math.sin(angle) * speed
@@ -145,6 +141,11 @@ class HomingLaser extends Entity {
                     this.angle += 5;
                 } 
             }
+            if (enemy.getData('isDead'))
+            {
+                this.destroy();
+            }
+            
                     
         }
         
