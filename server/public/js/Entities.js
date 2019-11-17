@@ -39,7 +39,7 @@ class Player extends Entity {
     constructor(scene, x, y, key) {
         super(scene, x, y, key, 'Player');
         this.setData('speed', 200);
-        this.setData('isShooting', false);
+        this.setData('isShooting', true);
         this.setData('timerShootDelay', 10);
         this.setData('timerShootTick', this.getData('timerShootDelay') - 1);
     }
@@ -74,7 +74,7 @@ class Player extends Entity {
                 this.setData('timerShootTick', this.getData('timerShootTick') + 1); // every game update, increase timerShootTick by one until we reach the value of timerShootDelay
             }
             else { // when the 'manual timer' is triggered:
-                var laser = new PlayerLaser(this.scene, this.x, this.y);
+                var laser = new HomingLaser(this.scene, this.x, this.y);
                 this.scene.playerLasers.add(laser);
                 this.scene.sfx.laser.play(); // play the laser sound effect
                 this.setData('timerShootTick', 0);
@@ -88,6 +88,70 @@ class PlayerLaser extends Entity {
         super(scene, x, y, 'sprLaserPlayer');
         this.body.velocity.y = -200;
     }
+}
+
+class HomingLaser extends Entity {
+    constructor(scene, x, y) {
+        super(scene, x, y, 'sprLaserPlayer');
+        this.body.velocity.y = -200;
+        
+
+        this.states = {
+        MOVE_DOWN: 'MOVE_DOWN',
+        CHASE: 'CHASE'
+        };
+        this.state = this.states.MOVE_DOWN;        
+    }
+    
+    
+    update() {
+        
+
+                
+                
+            
+
+
+
+        if (this.scene.enemies.getChildren()[0]){
+            var randomNum = Phaser.Math.Between(0, (this.scene.enemies.getChildren().length)-1);
+            
+            var enemy = this.scene.enemies.getChildren()[0];
+            
+
+                this.state = this.states.CHASE;
+            
+
+            if (this.state == this.states.CHASE) {
+                var dx = enemy.x - this.x;
+                var dy = enemy.y - this.y;
+
+                var angle = Math.atan2(dy, dx);
+
+                var speed = 200;
+                this.body.setVelocity(
+                    Math.cos(angle) * speed,
+                    Math.sin(angle) * speed
+                );
+
+                if (this.x < enemy.x) {
+                    this.angle -= 5;
+                }
+                else {
+                    this.angle += 5;
+                } 
+            }
+            if (enemy.getData('isDead'))
+            {
+                this.destroy();
+            }
+            
+                    
+        }
+        
+
+    }  
+    
 }
 
 class EnemyLaser extends Entity {
@@ -149,7 +213,14 @@ class GunShip extends Entity {
         super(scene, x, y, 'sprEnemy0', 'GunShip');
         this.play('sprEnemy0');
 
-        this.body.velocity.y = Phaser.Math.Between(50, 100);
+        if (this.scene.level == 1){
+            
+        this.body.velocity.y = 50;
+
+        }
+        else{
+        this.body.velocity.y = Phaser.Math.Between(50, 100);    }   
+
 
         this.shootTimer = this.scene.time.addEvent({
             delay: 1000,
