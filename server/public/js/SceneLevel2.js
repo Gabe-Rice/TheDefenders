@@ -254,6 +254,7 @@ class SceneLevel2 extends Phaser.Scene {
 
         this.axis = 0;
         this.axisIncrease = 0;
+        this.level = 2;
     }
 
     getEnemiesByType(type) {

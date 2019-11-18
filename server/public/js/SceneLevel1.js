@@ -214,7 +214,7 @@ class SceneLevel1 extends Phaser.Scene {
                     var xLocation = Phaser.Math.Between(0, 15 * 64);
                     var xIncrease = 32;
                     
-                for (var i = 0; i < 3; i++) {
+                for (var i = 0; i < 5; i++) {
                     
                     
                     enemy = new GunShip(
@@ -340,6 +340,8 @@ class SceneLevel1 extends Phaser.Scene {
         this.axis = 0;
         this.axisIncrease = 0;
         this.level = 1;
+        
+        this.turretType = 0;
     }
 
     getEnemiesByType(type) {
@@ -415,6 +417,7 @@ class SceneLevel1 extends Phaser.Scene {
         if (energy >= 10) {
             energy -= 10;
             energyText.setText('Energy: ' + energy);
+
         }
     }
 
@@ -422,6 +425,7 @@ class SceneLevel1 extends Phaser.Scene {
         if (energy >= 10) {
             energy -= 10;
             energyText.setText('Energy: ' + energy);
+
         }
     }
 
@@ -429,6 +433,7 @@ class SceneLevel1 extends Phaser.Scene {
         if (energy >= 10) {
             energy -= 10;
             energyText.setText('Energy: ' + energy);
+            this.turretType = 1;            
         }
     }
 
